@@ -5,10 +5,13 @@ import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useAuthUserStore } from "@/store/authUserStore";
 
 const Profile = () => {
   const { top } = useSafeAreaInsets();
   const styles = makeStyles(top);
+  const { user } = useAuthUserStore();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -37,8 +40,10 @@ const Profile = () => {
           <View style={styles.profileRow}>
             <View style={styles.imageHolder}></View>
             <View>
-              <Text style={styles.name}>Daniel Obi</Text>
-              <Text style={styles.email}>danielobi@gmail.com</Text>
+              <Text style={styles.name}>
+                {user?.firstName} {user?.lastName}
+              </Text>
+              <Text style={styles.email}>{user?.email}</Text>
             </View>
           </View>
         </View>
