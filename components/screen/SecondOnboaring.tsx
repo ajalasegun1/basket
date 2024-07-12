@@ -1,6 +1,7 @@
 import {
   Image,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -20,34 +21,36 @@ const SecondOnboaring = () => {
   const { setOnboarded, onboarded } = useAuthUserStore();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <LogoWithName />
-      <View style={styles.inner}>
-        <View style={styles.topCluster}>
-          <Text style={styles.welcome}>Welcome to</Text>
-          <Text style={styles.basket}>basket online store</Text>
-          <Text style={styles.basketIs}>
-            basket is the no1 online store for {`\n`}both new and used products
-          </Text>
+    <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <LogoWithName />
+        <View style={styles.inner}>
+          <View style={styles.topCluster}>
+            <Text style={styles.welcome}>Welcome to</Text>
+            <Text style={styles.basket}>basket online store</Text>
+            <Text style={styles.basketIs}>
+              basket is the no1 online store for {`\n`}both new and used
+              products
+            </Text>
+          </View>
+          <View style={styles.bottomCluster}>
+            <Image source={image} style={styles.image} />
+            <Link
+              href={"/login"}
+              asChild
+              onPress={() => {
+                setOnboarded();
+              }}
+            >
+              <Pressable style={styles.button}>
+                <Text style={styles.start}>GET STARTED</Text>
+                <FontAwesome6 name="arrow-right" size={24} color="#052d43" />
+              </Pressable>
+            </Link>
+          </View>
         </View>
-        <View style={styles.bottomCluster}>
-          <Image source={image} style={styles.image} />
-          <Link
-            href={"/login"}
-            asChild
-            onPress={() => {
-              console.log("Onboarded");
-              setOnboarded();
-            }}
-          >
-            <Pressable style={styles.button}>
-              <Text style={styles.start}>GET STARTED</Text>
-              <FontAwesome6 name="arrow-right" size={24} color="#052d43" />
-            </Pressable>
-          </Link>
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -63,11 +66,11 @@ const makeStyles = (width: number) =>
     },
     inner: {
       flex: 1,
-      gap: 80,
+      gap: 40,
     },
     topCluster: {
       gap: 10,
-      paddingTop: 40,
+      paddingTop: 20,
     },
     welcome: {
       fontSize: 24,

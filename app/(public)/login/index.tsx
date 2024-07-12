@@ -35,7 +35,6 @@ const Login = () => {
   }
 
   async function handleLogin() {
-    console.log({ remember });
     if (!username.trim() || !password.trim()) {
       return (
         Platform.OS === "android" &&

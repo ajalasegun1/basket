@@ -5,6 +5,7 @@ import {
   Text,
   Pressable,
   Image,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -44,68 +45,84 @@ const Profile = () => {
           <Ionicons name="menu" size={40} color="#ff7913" />
         </View>
       </View>
-      <View style={styles.background}>
-        <View style={styles.profile}>
-          <View style={styles.profileRow}>
-            <View style={styles.imageHolder}>
-              <Image source={{ uri: user?.image }} style={styles.image} />
+      <ScrollView
+        contentContainerStyle={{
+          flex: 1,
+          flexGrow: 1,
+          paddingBottom: 20,
+        }}
+      >
+        <View style={styles.background}>
+          <View style={styles.profile}>
+            <View style={styles.profileRow}>
+              <View style={styles.imageHolder}>
+                <Image source={{ uri: user?.image }} style={styles.image} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.name}>
+                  {user?.firstName} {user?.lastName}
+                </Text>
+                <Text style={styles.email}>{user?.email}</Text>
+              </View>
             </View>
-            <View>
-              <Text style={styles.name}>
-                {user?.firstName} {user?.lastName}
-              </Text>
-              <Text style={styles.email}>{user?.email}</Text>
+          </View>
+          <View style={styles.background2}>
+            <View style={styles.main}>
+              <View style={styles.inner}>
+                <View style={styles.innerRow}>
+                  <Octicons name="bell-fill" size={24} color="black" />
+                  <Text style={styles.list}>Notification</Text>
+                </View>
+                <View style={styles.innerRow}>
+                  <MaterialCommunityIcons
+                    name="account-edit"
+                    size={24}
+                    color="black"
+                  />
+                  <Text style={styles.list}>Edit Profile</Text>
+                </View>
+                <View style={styles.innerRow}>
+                  <Ionicons name="star" size={24} color="black" />
+                  <Text style={styles.list}>Wishlist</Text>
+                </View>
+                <View style={styles.innerRow}>
+                  <FontAwesome5 name="scroll" size={20} color="black" />
+                  <Text style={styles.list}>Order History</Text>
+                </View>
+                <View style={styles.innerRow}>
+                  <Ionicons name="location-sharp" size={24} color="black" />
+                  <Text style={styles.list}>Track Order</Text>
+                </View>
+                <View style={styles.innerRow}>
+                  <FontAwesome6
+                    name="credit-card-alt"
+                    size={20}
+                    color="black"
+                  />
+                  <Text style={styles.list}>Payment Option</Text>
+                </View>
+                <View style={styles.innerRow}>
+                  <Ionicons name="settings" size={24} color="black" />
+                  <Text style={styles.list}>Settings</Text>
+                </View>
+                <Pressable
+                  style={styles.innerRow}
+                  onPress={() => {
+                    logout();
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="logout"
+                    size={24}
+                    color="black"
+                  />
+                  <Text style={styles.list}>Logout</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         </View>
-        <View style={styles.background2}>
-          <View style={styles.main}>
-            <View style={styles.inner}>
-              <View style={styles.innerRow}>
-                <Octicons name="bell-fill" size={24} color="black" />
-                <Text style={styles.list}>Notification</Text>
-              </View>
-              <View style={styles.innerRow}>
-                <MaterialCommunityIcons
-                  name="account-edit"
-                  size={24}
-                  color="black"
-                />
-                <Text style={styles.list}>Edit Profile</Text>
-              </View>
-              <View style={styles.innerRow}>
-                <Ionicons name="star" size={24} color="black" />
-                <Text style={styles.list}>Wishlist</Text>
-              </View>
-              <View style={styles.innerRow}>
-                <FontAwesome5 name="scroll" size={20} color="black" />
-                <Text style={styles.list}>Order History</Text>
-              </View>
-              <View style={styles.innerRow}>
-                <Ionicons name="location-sharp" size={24} color="black" />
-                <Text style={styles.list}>Track Order</Text>
-              </View>
-              <View style={styles.innerRow}>
-                <FontAwesome6 name="credit-card-alt" size={20} color="black" />
-                <Text style={styles.list}>Payment Option</Text>
-              </View>
-              <View style={styles.innerRow}>
-                <Ionicons name="settings" size={24} color="black" />
-                <Text style={styles.list}>Settings</Text>
-              </View>
-              <Pressable
-                style={styles.innerRow}
-                onPress={() => {
-                  logout();
-                }}
-              >
-                <MaterialCommunityIcons name="logout" size={24} color="black" />
-                <Text style={styles.list}>Logout</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -166,7 +183,7 @@ const makeStyles = (top: number) =>
     profile: {
       height: 250,
       backgroundColor: "#ff7913",
-      paddingHorizontal: 30,
+      paddingHorizontal: 20,
       paddingTop: 40,
     },
     profileRow: {
@@ -215,7 +232,7 @@ const makeStyles = (top: number) =>
       paddingTop: 60,
       flex: 1,
       alignSelf: "center",
-      gap: 30,
+      gap: 20,
     },
     innerRow: {
       flexDirection: "row",

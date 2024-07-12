@@ -3,12 +3,18 @@ import React from "react";
 
 const Cart = () => {
   return (
-    <View>
-      <Text>Cart</Text>
+    <View style={styles.container}>
+      <Text>Cart 🛒</Text>
     </View>
   );
 };
 
 export default Cart;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
