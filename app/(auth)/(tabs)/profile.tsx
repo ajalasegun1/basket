@@ -1,4 +1,11 @@
-import { StyleSheet, TextInput, View, Text } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  Pressable,
+  Image,
+} from "react-native";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
@@ -11,6 +18,7 @@ const Profile = () => {
   const { top } = useSafeAreaInsets();
   const styles = makeStyles(top);
   const { user } = useAuthUserStore();
+  const { logout } = useAuthUserStore();
 
   return (
     <View style={styles.container}>
@@ -30,6 +38,7 @@ const Profile = () => {
               placeholder="Search in basket"
               style={styles.input}
               selectionColor={"#343434"}
+              autoCapitalize="none"
             />
           </View>
           <Ionicons name="menu" size={40} color="#ff7913" />
@@ -38,7 +47,9 @@ const Profile = () => {
       <View style={styles.background}>
         <View style={styles.profile}>
           <View style={styles.profileRow}>
-            <View style={styles.imageHolder}></View>
+            <View style={styles.imageHolder}>
+              <Image source={{ uri: user?.image }} style={styles.image} />
+            </View>
             <View>
               <Text style={styles.name}>
                 {user?.firstName} {user?.lastName}
@@ -82,10 +93,15 @@ const Profile = () => {
                 <Ionicons name="settings" size={24} color="black" />
                 <Text style={styles.list}>Settings</Text>
               </View>
-              <View style={styles.innerRow}>
+              <Pressable
+                style={styles.innerRow}
+                onPress={() => {
+                  logout();
+                }}
+              >
                 <MaterialCommunityIcons name="logout" size={24} color="black" />
                 <Text style={styles.list}>Logout</Text>
-              </View>
+              </Pressable>
             </View>
           </View>
         </View>
@@ -166,6 +182,11 @@ const makeStyles = (top: number) =>
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 80,
+    },
+    image: {
+      width: 78,
+      aspectRatio: 1,
+      borderRadius: 76,
     },
     background2: {
       flex: 1,

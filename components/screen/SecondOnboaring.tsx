@@ -7,18 +7,18 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import LogoWithName from "../LogoWithName";
 import image from "../../assets/images/shop.jpg";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { useAuthUserStore } from "@/store/authUserStore";
 
 const SecondOnboaring = () => {
   const { width } = useWindowDimensions();
   const styles = makeStyles(width);
+  const { setOnboarded, onboarded } = useAuthUserStore();
+  console.log({ onboarded });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +33,14 @@ const SecondOnboaring = () => {
         </View>
         <View style={styles.bottomCluster}>
           <Image source={image} style={styles.image} />
-          <Link href={"/login"} asChild>
+          <Link
+            href={"/login"}
+            asChild
+            onPress={() => {
+              console.log("Onboarded");
+              setOnboarded();
+            }}
+          >
             <Pressable style={styles.button}>
               <Text style={styles.start}>GET STARTED</Text>
               <FontAwesome6 name="arrow-right" size={24} color="#052d43" />

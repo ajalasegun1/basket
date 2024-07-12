@@ -1,10 +1,13 @@
 import {
+  ActivityIndicator,
   Image,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   View,
 } from "react-native";
 import React, { useState } from "react";
@@ -14,17 +17,62 @@ import Spacer from "@/components/Spacer";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import google from "../../assets/images/google.png";
-import facebook from "../../assets/images/facebook.png";
+import google from "../../../assets/images/google.png";
+import facebook from "../../../assets/images/facebook.png";
 import { useRouter } from "expo-router";
+import { useAuthUserStore } from "@/store/authUserStore";
 
 const Login = () => {
   const router = useRouter();
+  const { saveUserDetails, remember, setRemember, saveRemeber, userCreds } =
+    useAuthUserStore();
+  const [username, setUsername] = useState(remember ? userCreds.username : "");
+  const [password, setPassword] = useState(remember ? userCreds.password : "");
   const [secure, setSecure] = useState(true);
-  const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
   function goToProfile() {
     router.push("(tabs)/profile");
   }
+
+  async function handleLogin() {
+    console.log({ remember });
+    if (!username.trim() || !password.trim()) {
+      return (
+        Platform.OS === "android" &&
+        ToastAndroid.show("Please enter a valid username and password!", 3000)
+      );
+    }
+    if (remember) {
+      setRemember(true);
+      saveRemeber({ username, password });
+    } else {
+      setRemember(false);
+    }
+
+    setLoading(true);
+    fetch("https://dummyjson.com/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false);
+        if (res.message) {
+          ToastAndroid.show(res.message, 3000);
+          return;
+        }
+        saveUserDetails(res);
+        goToProfile();
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scroll} keyboardShouldPersistTaps="always">
@@ -42,9 +90,12 @@ const Login = () => {
           <View style={styles.inputContainer}>
             <FontAwesome6 name="envelope" size={24} color="#ff7913" />
             <TextInput
-              placeholder="Email"
+              placeholder="Username"
+              value={username}
+              onChangeText={setUsername}
               style={styles.input}
               selectionColor={"#242424"}
+              autoCapitalize="none"
             />
           </View>
           <View style={styles.inputContainer}>
@@ -57,8 +108,11 @@ const Login = () => {
             <TextInput
               secureTextEntry={secure}
               placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
               style={styles.input}
               selectionColor={"#242424"}
+              autoCapitalize="none"
             />
             {secure ? (
               <Pressable onPress={() => setSecure(!secure)}>
@@ -73,7 +127,7 @@ const Login = () => {
           <Spacer gap={1} />
 
           <View style={styles.rememberRow}>
-            <Pressable onPress={() => setRemember(!remember)}>
+            <Pressable onPress={() => setRemember(true)}>
               <View style={styles.outerBox}>
                 {remember && <View style={styles.innerBox} />}
               </View>
@@ -82,8 +136,12 @@ const Login = () => {
           </View>
         </View>
         <Spacer gap={40} />
-        <Pressable style={styles.button} onPress={goToProfile}>
-          <Text style={styles.login}>Login</Text>
+        <Pressable style={styles.button} onPress={handleLogin}>
+          {loading ? (
+            <ActivityIndicator size={20} color={"#fff"} />
+          ) : (
+            <Text style={styles.login}>Login</Text>
+          )}
         </Pressable>
         <Spacer gap={30} />
         <Text style={styles.forgot}> Forgot Password </Text>

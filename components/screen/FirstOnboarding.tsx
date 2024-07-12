@@ -11,6 +11,7 @@ import onbord from "../../assets/images/onboard.jpg";
 import BigLogo from "../BigLogo";
 import Animated from "react-native-reanimated";
 import { Link } from "expo-router";
+import { useAuthUserStore } from "@/store/authUserStore";
 
 type Props = {
   scrollRef: React.RefObject<Animated.ScrollView>;
@@ -19,7 +20,7 @@ type Props = {
 const FirstOnboarding: FC<Props> = ({ scrollRef }) => {
   const { width } = useWindowDimensions();
   const styles = makeStyles(width);
-
+  const { setOnboarded } = useAuthUserStore();
   return (
     <ImageBackground source={onbord} style={styles.container}>
       <View style={styles.inner}>
@@ -34,7 +35,7 @@ const FirstOnboarding: FC<Props> = ({ scrollRef }) => {
         <View style={styles.bottom}>
           <Text style={styles.orange}>Basket Online Marketplace</Text>
           <View style={styles.bottomRow}>
-            <Link asChild href={"/login"}>
+            <Link asChild href={"/login"} onPress={() => setOnboarded()}>
               <Text style={styles.orange}>Skip</Text>
             </Link>
 

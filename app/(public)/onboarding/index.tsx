@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React, { useRef } from "react";
 import FirstOnboarding from "@/components/screen/FirstOnboarding";
 import SecondOnboaring from "@/components/screen/SecondOnboaring";
