@@ -18,7 +18,6 @@ const SecondOnboaring = () => {
   const { width } = useWindowDimensions();
   const styles = makeStyles(width);
   const { setOnboarded, onboarded } = useAuthUserStore();
-  console.log({ onboarded });
 
   return (
     <SafeAreaView style={styles.container}>
