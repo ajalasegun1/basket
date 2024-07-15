@@ -64,10 +64,12 @@ const Login = () => {
           ToastAndroid.show(res.message, 3000);
           return;
         }
+        // console.log({ res });
         saveUserDetails(res);
         goToProfile();
       })
       .catch((error) => {
+        // console.log({ error });
         setLoading(false);
       });
   }
